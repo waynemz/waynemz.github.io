@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://waynemz.github.io</id>
-    <title>waynemz</title>
-    <updated>2022-02-26T15:13:54.054Z</updated>
+    <title>wayne的记录本</title>
+    <updated>2022-02-27T14:11:48.238Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://waynemz.github.io"/>
     <link rel="self" href="https://waynemz.github.io/atom.xml"/>
     <subtitle>记录工作和生活的地方</subtitle>
     <logo>https://waynemz.github.io/images/avatar.png</logo>
     <icon>https://waynemz.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2022, waynemz</rights>
+    <rights>All rights reserved 2022, wayne的记录本</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://waynemz.github.io/post/hello-gridea/</id>
