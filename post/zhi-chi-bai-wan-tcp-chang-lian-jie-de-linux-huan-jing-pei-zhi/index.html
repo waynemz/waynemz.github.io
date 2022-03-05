@@ -1,9 +1,11 @@
+
+<!DOCTYPE html>
 <html>
   <head>
     
 <meta charset="utf-8" >
 
-<title>wayne的记录本</title>
+<title>支持百万TCP长连接的linux环境配置 | wayne的记录本</title>
 <meta name="description" content="记录工作和生活的地方">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -75,32 +77,55 @@
 </transition>
 
 
-        <div class="content-container">
+      <div class="content-container">
+        <div class="post-detail">
           
+            <div class="feature-container" style="background-image: url('https://media.istockphoto.com/photos/fiber-optic-cables-and-utp-network-cables-picture-id1326728661')">
+            </div>
           
+          <h2 class="post-title">支持百万TCP长连接的linux环境配置</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2022-02-26</span>
+            
+          </div>
+          <div class="post-content">
+            <!-- more -->
+<p>最近在实现一个基于MQTT协议的TCP服务器， 服务器是部署在阿里云，配置越高，服务器的费用也就越高。本着省钱的目的，期望以最低的配置实现百万TCP长连接。</p>
+<p>#单台TCP服务理论上支持多少数量的TCP连接？<br>
+有人会说单台TCP服务器最多支持65535个TCP连接，觉得服务器可用的端口号只有65535个，所以最多只支持65535个TCP连接。 其实不然。服务器所支持TCP连接数并不是由服务器端口数决定。<br>
+每个TCP连接是由四元组（源目的IP地址,源目的端口 , 目的IP地址,目的端口）标识其的唯一性。<br>
+源目的IP地址 + 源目的端口  &lt;--------&gt;  目的IP地址 +目的端口<br>
+对服务器来说，源目的IP地址 和源目的端口为固定值 ， 目的IP地址为目的端口为可变项，理论上TCP服务器能支持的TCP连接上限为 (2的32次方 *  65535) 。</p>
+<p>#服务器优化参数方向有那些？<br>
+服务器默认支持打开的文件数一般默认为1024<br>
+输入如下命令查看当前系统支持最大的打开文件数</p>
+<pre><code>ulimit -n
+</code></pre>
+<p>最明显1024是完全不够,修改参数设置为2000000</p>
+<pre><code>ulimit -n 2000000
+</code></pre>
+<p>TCP参数优化。主要降低读写缓冲区内存大小，减小内存占用，用最少的内存支持最多的连接</p>
+<pre><code>sysctl -w net.core.somaxconn=262144
+sysctl -w net.ipv4.tcp_mem='4096 4096 4096'
+sysctl -w net.ipv4.tcp_rmem='4096 4096 4096'
+sysctl -w net.ipv4.tcp_wmem='4096 4096 4096'
+sysctl -w net.ipv4.ip_local_port_range=&quot;10000 61000&quot;
+sysctl -w net.ipv4.tcp_fin_timeout=30
+sysctl -w net.nf_conntrack_max=2097152
+sysctl -w net.netfilter.nf_conntrack_tcp_timeout_established=84600
+sysctl -w fs.file-max=2097152
+sysctl -w fs.nr_open=2097152
+</code></pre>
 
-<div class="archives-container">
-  
-    <h2 class="year">2022</h2>
-    
-      
-        <article class="post">
-          <a href="https://waynemz.github.io/post/zhi-chi-bai-wan-tcp-chang-lian-jie-de-linux-huan-jing-pei-zhi/">
-            <h2 class="post-title">
-              支持百万TCP长连接的linux环境配置
-              <small>2022-02-26</small>
-            </h2>
-          </a>
-        </article>
-      
-    
-  
-</div>
-
-
+          </div>
         </div>
 
-        <div class="site-footer">
+        
+      </div>
+
+      
+
+      <div class="site-footer">
   <div class="slogan">记录工作和生活的地方</div>
   <div class="social-container">
     
@@ -119,8 +144,8 @@
 </div>
 
 
-      </div>
-      <script type="application/javascript">
+    </div>
+    <script type="application/javascript">
 
 hljs.initHighlightingOnLoad()
 
@@ -136,6 +161,5 @@ var app = new Vue({
 
 
 
-    </div>
   </body>
 </html>
